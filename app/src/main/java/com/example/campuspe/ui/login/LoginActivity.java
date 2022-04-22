@@ -24,9 +24,12 @@ import android.widget.Toast;
 
 import com.example.campuspe.R;
 import com.example.campuspe.ui.LoggedIn;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -37,10 +40,12 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button otpBtn;
-EditText tv;
+    Button otpBtn,verifyBtn;
+EditText tv,codeVer;
 FirebaseAuth mAuth;
 String phoneNo;
+    String mVerificationId;
+    PhoneAuthProvider.ForceResendingToken mResendToken;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +55,6 @@ String phoneNo;
         otpBtn = findViewById(R.id.otpbtn);
         tv=findViewById(R.id.username);
         mAuth = FirebaseAuth.getInstance();
-
         otpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,14 +96,16 @@ String phoneNo;
 
         @Override
         public void onVerificationCompleted(PhoneAuthCredential credential) {
-
+            String code = credential.getSmsCode();
+            if (code != null) {
+                verifyCode(code);
+            }
             Toast.makeText(getApplicationContext(),"Verification Completed",Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            // This callback is invoked in an invalid request for verification is made,
-            // for instance if the the phone number format is not valid.
+
             Log.w(TAG, "onVerificationFailed", e);
 
           Toast.makeText(getApplicationContext(),"Code Was Not Sent",Toast.LENGTH_SHORT).show();
@@ -114,7 +120,8 @@ String phoneNo;
             // now need to ask the user to enter the code and then construct a credential
             // by combining the code with a verification ID.
             Toast.makeText(getApplicationContext(),"Verification Code Sent Successfully",Toast.LENGTH_SHORT).show();
-
+            mVerificationId = verificationId;
+            mResendToken = token;
 
 
         }
@@ -132,10 +139,60 @@ String phoneNo;
 
     }
 
+    private void verifyCode(String codeByUser) {
+
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, codeByUser);
+        signInTheUserByCredentials(credential);
+
+    }
+
+
+
+
+    private void signInTheUserByCredentials(PhoneAuthCredential credential) {
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener( LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()) {
+
+                            Toast.makeText(getApplicationContext(), "Your Account has been created successfully!", Toast.LENGTH_SHORT).show();
+
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
     private void showDialog(){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.otp_dialog);
+        verifyBtn=dialog.findViewById(R.id.button2);
+        codeVer=dialog.findViewById(R.id.editTextNumber2);
+
+        verifyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String verCode= codeVer.getText().toString();
+                String code = verCode;
+
+                if (code.isEmpty() || code.length() < 6) {
+                    codeVer.setError("Wrong OTP...");
+                    codeVer.requestFocus();
+                    return;
+                }
+
+                verifyCode(code);
+            }
+        });
 
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
