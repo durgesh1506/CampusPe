@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1055795786669",
+    "project_id": "authentication-42ec1",
+    "storage_bucket": "authentication-42ec1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055795786669:android:30bc66d3486a6bd881a724",
+        "android_client_info": {
+          "package_name": "com.example.book_a_court"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055795786669-clhhjlufo5sgne3sr99948uhc5dtj51m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmM7KDueZ_CXO0jsqkN1uSHWudpHavu1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055795786669-clhhjlufo5sgne3sr99948uhc5dtj51m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055795786669:android:9b5dd23a26e35d3781a724",
+        "android_client_info": {
+          "package_name": "com.example.campuspe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055795786669-clhhjlufo5sgne3sr99948uhc5dtj51m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmM7KDueZ_CXO0jsqkN1uSHWudpHavu1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055795786669-clhhjlufo5sgne3sr99948uhc5dtj51m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
