@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_200sdp"
+    android:layout_height="wrap_content"
     android:background="@drawable/bottom_sheet_back"
     android:orientation="vertical"
     android:padding="@dimen/_10sdp"
@@ -12,8 +12,9 @@
      <TextView
          android:id="@+id/textView2"
          android:layout_width="match_parent"
-         android:layout_height="0dp"
+         android:layout_height="wrap_content"
          android:layout_weight="1"
+         android:layout_margin="@dimen/_5sdp"
          android:fontFamily="@font/calistoga"
          android:gravity="center_vertical"
          android:text="Enter the OTP"
@@ -23,16 +24,18 @@
      <EditText
          android:id="@+id/editTextNumber2"
          android:layout_width="match_parent"
-         android:layout_height="0dp"
-         android:layout_weight="0.75"
+         android:layout_height="wrap_content"
+         android:layout_margin="@dimen/_5sdp"
+         android:layout_weight="1"
          android:ems="10"
          android:inputType="number" />
 
      <Button
          android:id="@+id/button2"
          android:layout_width="wrap_content"
-         android:layout_height="2dp"
+         android:layout_height="wrap_content"
          android:layout_gravity="center"
+         android:layout_margin="@dimen/_5sdp"
          android:layout_weight="0.75"
          android:text="Verify" />
 </LinearLayout>
