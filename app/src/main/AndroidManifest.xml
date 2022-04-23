@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CampusPe">
-        <activity android:name=".ui.login.LoginName"></activity>
-        <activity
-            android:name=".ui.CanteenActivity"/>
+        <activity android:name=".ui.RewardActivity"></activity>
+        <activity android:name=".ui.login.LoginName" />
+        <activity android:name=".ui.CanteenActivity" />
         <activity
             android:name=".UserProfile"
             android:exported="true"
             android:label="Profile"
-            android:parentActivityName=".ui.LoggedIn"/>
+            android:parentActivityName=".ui.LoggedIn" />
         <activity
             android:name=".SplashScreen"
             android:exported="true"
@@ -30,7 +30,14 @@
         <activity android:name=".ui.LoggedIn" />
         <activity
             android:name=".ui.login.LoginActivity"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name" />
+        <activity
+            android:name=".ui.PaymentActivity"
+            android:label="Payment" />
+        <activity
+            android:name=".ui.PaymentStatus"
+            android:label="Payment Status"
+            android:parentActivityName=".ui.LoggedIn" />
 
         <meta-data
             android:name="preloaded_fonts"

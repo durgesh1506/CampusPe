@@ -15,19 +15,14 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/canteenImage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="10dp"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
 
             <TextView
                 android:id="@+id/canteenName"
@@ -35,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="@dimen/_5sdp"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:text="Name"
                 android:textSize="20sp"
                 android:textStyle="bold" />

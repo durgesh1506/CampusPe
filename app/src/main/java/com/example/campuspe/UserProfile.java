@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.campuspe.ui.LoggedIn;
+import com.example.campuspe.ui.RewardActivity;
 import com.example.campuspe.ui.login.LoginActivity;
 import com.example.campuspe.ui.login.LoginName;
 import com.example.campuspe.ui.login.User;
@@ -29,7 +30,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class UserProfile extends AppCompatActivity {
-    Button logout;
+    Button logout,rewBtn;
 
     TextView perName, mail, phone, edit, save;
     FirebaseDatabase database;
@@ -52,13 +53,14 @@ public class UserProfile extends AppCompatActivity {
         mail = findViewById(R.id.textEmail);
         phone = findViewById(R.id.textPhone);
         editPerName = findViewById(R.id.editPerName);
-        save = findViewById(R.id.editName2);
+        save = findViewById(R.id.saveName);
         progressBar=findViewById(R.id.progressBar2);
+        rewBtn = findViewById(R.id.rewardBtn);
 
-      database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
         myRef = database.getReference("UserInfo").child(uid);
         mAuth=FirebaseAuth.getInstance();
-progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -77,6 +79,14 @@ progressBar.setVisibility(View.VISIBLE);
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getApplicationContext(), "Something Wrong Happened", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        rewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RewardActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.campuspe.R;
@@ -24,6 +25,7 @@ public class CanteenActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MenuAdapter menuAdapter;
     ArrayList<FoodDetails> foodList;
+    Button payBtn;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,9 @@ public class CanteenActivity extends AppCompatActivity {
         View view = getSupportActionBar().getCustomView();
         CircleImageView back = view.findViewById(R.id.actionBack);
         actionName = view.findViewById(R.id.actionName);
-        actionName.setText(getIntent().getStringExtra("cName"));
+        String canteenName = getIntent().getStringExtra("cName");
+        actionName.setText(canteenName);
+        payBtn = findViewById(R.id.payBtn);
         
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +79,15 @@ public class CanteenActivity extends AppCompatActivity {
         foodList.add(new FoodDetails("khana",200));
         foodList.add(new FoodDetails("khana",200));
 
+        payBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),PaymentActivity.class);
+                intent.putExtra("canteen_name",canteenName);
+                intent.putExtra("total_fare",Integer.parseInt(fare.getText().toString().substring(3)));
+                startActivity(intent);
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
