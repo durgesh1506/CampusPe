@@ -7,6 +7,11 @@ public class CanteenData {
     ArrayList<FoodDetails> Menu;
     String upi;
 
+    public CanteenData(String name, ArrayList<FoodDetails> menu) {
+        this.name = name;
+        Menu = menu;
+    }
+
     public CanteenData(){
 
     }
