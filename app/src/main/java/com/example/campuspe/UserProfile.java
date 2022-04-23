@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class UserProfile extends AppCompatActivity {
     DatabaseReference myRef;
     FirebaseAuth mAuth;
     String uid,namee,num,name,reg;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +53,12 @@ public class UserProfile extends AppCompatActivity {
         phone = findViewById(R.id.textPhone);
         editPerName = findViewById(R.id.editPerName);
         save = findViewById(R.id.editName2);
+        progressBar=findViewById(R.id.progressBar2);
+
       database = FirebaseDatabase.getInstance();
         myRef = database.getReference("UserInfo").child(uid);
         mAuth=FirebaseAuth.getInstance();
-
+progressBar.setVisibility(View.VISIBLE);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -66,6 +70,7 @@ public class UserProfile extends AppCompatActivity {
                 perName.setText(name);
                 phone.setText(num);
                 mail.setText(reg);
+                progressBar.setVisibility(View.INVISIBLE);
 
             }
 
@@ -110,7 +115,7 @@ public class UserProfile extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-
+startActivity(intent);
             }
         });
 
