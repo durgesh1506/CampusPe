@@ -76,6 +76,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
 
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView food_name;
+        TextView food_price;
         CircleImageView increase;
         CircleImageView decrease;
         TextView integer_number;
@@ -86,6 +87,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
             increase = itemView.findViewById(R.id.increase);
             decrease = itemView.findViewById(R.id.decrease);
             integer_number = itemView.findViewById(R.id.integer_number);
+            food_price = itemView.findViewById(R.id.foodprice);
         }
     }
 }
