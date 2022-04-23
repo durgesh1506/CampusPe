@@ -20,6 +20,8 @@ import android.widget.Filter;
 
 import com.example.campuspe.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
     Context contextHere;
     ArrayList<FoodDetails> foodList;
@@ -47,6 +49,24 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
         FoodDetails data = foodList.get(position);
 //        Log.d("chatTag", "onBindViewHolder: "+user.getName());
         holder.food_name.setText(data.getFoodName());
+//        holder.integer_number.setText(holder.minnteger);
+        holder.increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.minnteger= holder.minnteger+1;
+                holder.integer_number.setText(""+holder.minnteger);
+            }
+        });
+        holder.decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(holder.minnteger>0) {
+                    holder.minnteger = holder.minnteger - 1;
+                    holder.integer_number.setText("" + holder.minnteger);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -56,9 +76,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
 
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView food_name;
+        CircleImageView increase;
+        CircleImageView decrease;
+        TextView integer_number;
+        int minnteger = 0;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             food_name = itemView.findViewById(R.id.foodName);
+            increase = itemView.findViewById(R.id.increase);
+            decrease = itemView.findViewById(R.id.decrease);
+            integer_number = itemView.findViewById(R.id.integer_number);
         }
     }
 }
