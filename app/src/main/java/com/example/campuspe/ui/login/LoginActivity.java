@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        startActivity(new Intent(this, LoggedIn.class));
         getSupportActionBar().hide();
         otpBtn = findViewById(R.id.otpbtn);
         tv=findViewById(R.id.username);
@@ -72,7 +71,18 @@ public class LoginActivity extends AppCompatActivity {
                 sendVerificationCodeToUser(phoneNo);
                 showDialog();
             }
+
         });
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            Intent intent=new Intent(getApplicationContext(),LoggedIn.class);
+            startActivity(intent);
+        }
     }
 
     private Boolean validatePhoneNo() {
@@ -175,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                         Toast.makeText(getApplicationContext(), "Your Account has been created successfully!", Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(getApplicationContext(),LoggedIn.class);
+                        Intent intent=new Intent(getApplicationContext(),LoginName.class);
                         startActivity(intent);
                     } else {
                         progressBar1.setVisibility(View.INVISIBLE);
@@ -187,7 +197,9 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     // Sign in failed, display a message and update the UI-
                     if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                        Intent intent=new Intent(getApplicationContext(),LoggedIn.class);
+                        Toast.makeText(getApplicationContext(), "Logged In Failed", Toast.LENGTH_SHORT).show();
+
+                        Intent intent=new Intent(getApplicationContext(),LoginActivity.class);
                         startActivity(intent);
                         progressBar1.setVisibility(View.INVISIBLE);
                         Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
