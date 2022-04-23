@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.campuspe.R;
+import com.example.campuspe.ui.login.LoginActivity;
 
 import java.util.ArrayList;
 
@@ -56,27 +57,27 @@ public class LoggedIn extends AppCompatActivity {
         listAdapter = new ListAdapter(getApplicationContext(),canteenList);
         recyclerView.setAdapter(listAdapter);
     }
-
-
-    }
+    @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to exit?")
-        .setCancelable(false)
-        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-            }
-        })
-         .setNegativeButton("No", new DialogInterface.OnClickListener() {
-             @Override
-             public void onClick(DialogInterface dialogInterface, int i) {
-                 dialogInterface.cancel();
-             }
-         });
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finishAffinity();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
         AlertDialog alertDialog= builder.create();
         alertDialog.show();
-        super.onBackPressed();
+
     }
-}
+
+    }
+
