@@ -10,12 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.campuspe.R;
 import com.example.campuspe.UserProfile;
 import com.example.campuspe.ui.login.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -24,33 +33,56 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static java.security.AccessController.getContext;
 
 public class LoggedIn extends AppCompatActivity {
-    int backCnt=0;
+
     RecyclerView recyclerView;
     ListAdapter listAdapter;
-    ArrayList<CanteenData> canteenList;
+    ArrayList< CanteenData > canteenList;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final int[] i = {1};
         setContentView(R.layout.activity_logged_in);
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseReference = database.getReference("CanteenData");
         getSupportActionBar().setCustomView(R.layout.custom_action_bar);
         //getSupportActionBar().setElevation(0);
         View view = getSupportActionBar().getCustomView();
         CircleImageView prof = view.findViewById(R.id.profile_image);
         canteenList = new ArrayList<>();
-        canteenList.add(new CanteenData("Yashnath"));
-        canteenList.add(new CanteenData("Raj"));
-        canteenList.add(new CanteenData("Talwar"));
-        canteenList.add(new CanteenData("Talwar"));
-        canteenList.add(new CanteenData("Talwar"));
-        canteenList.add(new CanteenData("Talwar"));
-        canteenList.add(new CanteenData("Talwar"));
-        canteenList.add(new CanteenData("Talwar"));
-        canteenList.add(new CanteenData("Talwar"));
-        canteenList.add(new CanteenData("Talwar"));
-        canteenList.add(new CanteenData("Talwar"));
+
+        Query mQueryRef = databaseReference;
+
+        mQueryRef.addValueEventListener(new ValueEventListener() {
+            private static final String TAG = "";
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Log.d(TAG, "onDataChange():" + dataSnapshot.toString());
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                   CanteenData canteenData = snapshot.getValue(CanteenData.class);
+                    canteenList.add(canteenData);
+                }
+               listAdapter = new ListAdapter(getApplicationContext(),canteenList);
+
+                recyclerView.setAdapter(listAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read data", error.toException());
+
+            }
+        });
+
 
         prof.setOnClickListener(new View.OnClickListener() {
             @Override
