@@ -20,14 +20,14 @@ import android.widget.Filter;
 
 import com.example.campuspe.R;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
+public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
     Context contextHere;
-    ArrayList<CanteenData> canteenList;
+    ArrayList<FoodDetails> foodList;
 
 
-    public ListAdapter(Context contextHere, ArrayList<CanteenData> canteenList) {
+    public MenuAdapter(Context contextHere, ArrayList<FoodDetails> food) {
         this.contextHere = contextHere;
-        this.canteenList = canteenList;
+        this.foodList = food;
         //filteredNameList = new ArrayList<>(complexList);
     }
 
@@ -35,47 +35,30 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(contextHere).inflate(R.layout.item_canteen_list,parent,false);
+        View view = LayoutInflater.from(contextHere).inflate(R.layout.item_food_list,parent,false);
 //        Toast.makeText(contextHere, "oncreate called", Toast.LENGTH_SHORT).show();
-        return new ListAdapter.ViewHolder(view);
+        return new MenuAdapter.ViewHolder(view);
     }
 
 
     @SuppressLint("RestrictedApi")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CanteenData data = canteenList.get(position);
+        FoodDetails data = foodList.get(position);
 //        Log.d("chatTag", "onBindViewHolder: "+user.getName());
-        holder.canteen_name.setText(data.getName().toUpperCase());
-//        if(user.uri!=null){
-//            Picasso.get().load(user.getUri()).into(holder.card_pic);
-//        }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(contextHere,CanteenActivity.class);
-                intent.putExtra("cName",data.getName());
-//                intent.putExtra("uid",user.getUid());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                contextHere.startActivity(intent);
-            }
-        });
-
+        holder.food_name.setText(data.getFoodName());
     }
 
     @Override
     public int getItemCount() {
-        return canteenList.size();
+        return foodList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        CardView tile;
-        RatingBar ratingBar;
-        TextView canteen_name;
-        ImageView card_pic;
+        TextView food_name;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            canteen_name = itemView.findViewById(R.id.canteenName);
+            food_name = itemView.findViewById(R.id.foodName);
         }
     }
 }

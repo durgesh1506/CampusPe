@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/</item>
+        <item>@font/adamina</item>
+        <item>@font/akaya_telivigala</item>
         <item>@font/allerta</item>
         <item>@font/calistoga</item>
         <item>@font/delius_swash_caps</item>
         <item>@font/headland_one</item>
+        <item>@font/maitree</item>
+        <item>@font/walter_turncoat</item>
     </array>
 </resources>
