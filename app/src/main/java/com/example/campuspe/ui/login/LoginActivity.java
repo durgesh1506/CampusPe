@@ -44,17 +44,17 @@ import java.util.concurrent.TimeUnit;
 public class LoginActivity extends AppCompatActivity {
 
     Button otpBtn,verifyBtn;
-EditText tv,codeVer;
-FirebaseAuth mAuth;
-String phoneNo;
-ProgressBar progressBar,progressBar1;
+    EditText tv,codeVer;
+    FirebaseAuth mAuth;
+    String phoneNo;
+    ProgressBar progressBar,progressBar1;
     String mVerificationId;
     PhoneAuthProvider.ForceResendingToken mResendToken;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        startActivity(new Intent(this, LoggedIn.class));
+        startActivity(new Intent(this, LoggedIn.class));
         getSupportActionBar().hide();
         otpBtn = findViewById(R.id.otpbtn);
         tv=findViewById(R.id.username);
@@ -62,11 +62,14 @@ ProgressBar progressBar,progressBar1;
         progressBar1=findViewById(R.id.progressBar);
 
 
+
         otpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 phoneNo = tv.getText().toString();
+
                 registerUser(v);
+                sendVerificationCodeToUser(phoneNo);
                 showDialog();
             }
         });
@@ -192,16 +195,6 @@ ProgressBar progressBar,progressBar1;
                 }
             }
         });
-
-
-
-
-
-
-
-
-
-
     }
 
     private void showDialog(){
