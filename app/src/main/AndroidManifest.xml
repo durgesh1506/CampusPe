@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CampusPe">
+        <activity android:name=".ui.login.LoginName"></activity>
         <activity
             android:name=".ui.CanteenActivity"/>
         <activity
