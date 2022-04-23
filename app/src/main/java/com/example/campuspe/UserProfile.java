@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class UserProfile extends AppCompatActivity {
@@ -53,6 +54,27 @@ public class UserProfile extends AppCompatActivity {
       database = FirebaseDatabase.getInstance();
         myRef = database.getReference("UserInfo").child(uid);
         mAuth=FirebaseAuth.getInstance();
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                assert user != null;
+                name = user.username;
+                num = user.phone;
+                reg = user.regNo;
+                perName.setText(name);
+                phone.setText(num);
+                mail.setText(reg);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Something Wrong Happened", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,70 +116,17 @@ public class UserProfile extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                assert user != null;
-                 name = user.username;
-                 num = user.phone;
-                 reg = user.regNo;
-                perName.setText(name);
-                phone.setText(num);
-                mail.setText(reg);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), "Something Wrong Happened", Toast.LENGTH_SHORT).show();
-            }
-        });
-    };
 
 
     private void addDatatoFirebase(String name,String pn,String reg) {
        User user = new User(name,pn,reg);
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String uid=mAuth.getCurrentUser().getUid();
-                myRef.setValue(user);
-                Toast.makeText(getApplicationContext(), "Data Updated Successfully!", Toast.LENGTH_SHORT).show();
-                edit.setVisibility(View.VISIBLE);
-                save.setVisibility(View.INVISIBLE);
-                perName.setVisibility(View.VISIBLE);
-                perName.setText(name);
-                editPerName.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getApplicationContext(), "Failed to add data " + error, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-}
-
- class use {
-
-    public String username;
-
-    public use() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
-    }
-
-    public use(String username) {
-        this.username = username;
-
+        myRef.setValue(user);
+        edit.setVisibility(View.VISIBLE);
+        save.setVisibility(View.INVISIBLE);
+        perName.setVisibility(View.VISIBLE);
+        editPerName.setVisibility(View.INVISIBLE);
 
     }
-
 }
 
 
