@@ -25,12 +25,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
     Context contextHere;
     ArrayList<FoodDetails> foodList;
+    View view;
+    int totalfare = 0;
 
-
-    public MenuAdapter(Context contextHere, ArrayList<FoodDetails> food) {
+    public MenuAdapter(Context contextHere, ArrayList<FoodDetails> food, View view) {
         this.contextHere = contextHere;
         this.foodList = food;
-        //filteredNameList = new ArrayList<>(complexList);
+        this.view = view;
     }
 
 
@@ -38,7 +39,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(contextHere).inflate(R.layout.item_food_list,parent,false);
-//        Toast.makeText(contextHere, "oncreate called", Toast.LENGTH_SHORT).show();
         return new MenuAdapter.ViewHolder(view);
     }
 
@@ -47,22 +47,27 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FoodDetails data = foodList.get(position);
-//        Log.d("chatTag", "onBindViewHolder: "+user.getName());
         holder.food_name.setText(data.getFoodName());
-//        holder.integer_number.setText(holder.minnteger);
+        holder.food_price.setText("Rate : "+data.getPrice());
+        TextView fare = view.findViewById(R.id.fare);
+        fare.setText("Rs."+totalfare);
         holder.increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 holder.minnteger= holder.minnteger+1;
                 holder.integer_number.setText(""+holder.minnteger);
+                totalfare+=data.getPrice();
+                fare.setText("Rs."+totalfare);
             }
         });
         holder.decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(holder.minnteger>0) {
+                if(holder.minnteger>0 && totalfare>=data.getPrice()) {
                     holder.minnteger = holder.minnteger - 1;
                     holder.integer_number.setText("" + holder.minnteger);
+                    totalfare-=data.getPrice();
+                    fare.setText("Rs."+totalfare);
                 }
             }
         });
@@ -73,6 +78,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder>{
     public int getItemCount() {
         return foodList.size();
     }
+
+    public int getTotalfare(){return totalfare;}
 
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView food_name;

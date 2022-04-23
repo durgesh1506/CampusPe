@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CanteenActivity extends AppCompatActivity {
-    TextView actionName;
+    TextView actionName, fare;
     RecyclerView recyclerView;
     MenuAdapter menuAdapter;
     ArrayList<FoodDetails> foodList;
@@ -46,6 +46,9 @@ public class CanteenActivity extends AppCompatActivity {
         });
         foodList = new ArrayList<>();
         recyclerView = findViewById(R.id.menuRecycler);
+
+        fare = findViewById(R.id.fare);
+
 
         foodList.add(new FoodDetails("khana",200));
         foodList.add(new FoodDetails("khana",200));
@@ -75,7 +78,7 @@ public class CanteenActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
-        menuAdapter = new MenuAdapter(getApplicationContext(),foodList);
+        menuAdapter = new MenuAdapter(getApplicationContext(),foodList,fare);
         recyclerView.setAdapter(menuAdapter);
     }
 

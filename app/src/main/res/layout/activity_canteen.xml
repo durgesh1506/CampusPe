@@ -59,13 +59,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Total fare"
+                android:textColor="#232121"
                 android:textSize="@dimen/_18sdp" />
 
             <TextView
                 android:id="@+id/fare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="25Rs"
+                android:text="Rs.0"
+                android:textColor="#232121"
                 android:textSize="@dimen/_15sdp" />
         </LinearLayout>
 
@@ -73,6 +75,7 @@
             android:id="@+id/payBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:backgroundTint="#631B8F"
             android:text="Pay Now" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
