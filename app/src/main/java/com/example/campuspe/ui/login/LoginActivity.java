@@ -27,34 +27,42 @@ import com.example.campuspe.ui.LoggedIn;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
 
     Button otpBtn,verifyBtn;
-EditText tv,codeVer;
-FirebaseAuth mAuth;
-String phoneNo;
+    EditText tv,codeVer;
+    FirebaseAuth mAuth;
+    String phoneNo;
+    ProgressBar progressBar,progressBar1;
     String mVerificationId;
     PhoneAuthProvider.ForceResendingToken mResendToken;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        startActivity(new Intent(this, LoggedIn.class));
+        startActivity(new Intent(this, LoggedIn.class));
         getSupportActionBar().hide();
         otpBtn = findViewById(R.id.otpbtn);
         tv=findViewById(R.id.username);
         mAuth = FirebaseAuth.getInstance();
+        progressBar1=findViewById(R.id.progressBar);
+
+
+
         otpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +105,9 @@ String phoneNo;
         @Override
         public void onVerificationCompleted(PhoneAuthCredential credential) {
             String code = credential.getSmsCode();
+            codeVer.setText(code);
+            progressBar1.setVisibility(View.VISIBLE);
+
             if (code != null) {
                 verifyCode(code);
             }
@@ -151,24 +162,39 @@ String phoneNo;
 
     private void signInTheUserByCredentials(PhoneAuthCredential credential) {
 
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task){
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
+                    long creationTimestamp = Objects.requireNonNull(user.getMetadata()).getCreationTimestamp();
+                    long lastSignInTimestamp = user.getMetadata().getLastSignInTimestamp();
+                    if (creationTimestamp == lastSignInTimestamp) {
+                        progressBar1.setVisibility(View.INVISIBLE);
 
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener( LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Your Account has been created successfully!", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(getApplicationContext(),LoggedIn.class);
+                        startActivity(intent);
+                    } else {
+                        progressBar1.setVisibility(View.INVISIBLE);
 
-                            Toast.makeText(getApplicationContext(), "Your Account has been created successfully!", Toast.LENGTH_SHORT).show();
-
-
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(getApplicationContext(), "Logged In successfully!", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(getApplicationContext(),LoggedIn.class);
+                        startActivity(intent);
                     }
-                });
+                } else {
+                    // Sign in failed, display a message and update the UI-
+                    if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                        Intent intent=new Intent(getApplicationContext(),LoggedIn.class);
+                        startActivity(intent);
+                        progressBar1.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
 
     private void showDialog(){
@@ -177,16 +203,21 @@ String phoneNo;
         dialog.setContentView(R.layout.otp_dialog);
         verifyBtn=dialog.findViewById(R.id.button2);
         codeVer=dialog.findViewById(R.id.editTextNumber2);
-
+        sendVerificationCodeToUser(phoneNo);
         verifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String verCode= codeVer.getText().toString();
                 String code = verCode;
 
+
+                    progressBar1.setVisibility(View.VISIBLE);
+
                 if (code.isEmpty() || code.length() < 6) {
                     codeVer.setError("Wrong OTP...");
                     codeVer.requestFocus();
+                    progressBar1.setVisibility(View.INVISIBLE);
+
                     return;
                 }
 
