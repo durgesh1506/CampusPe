@@ -89,21 +89,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.577" />
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="401dp"
-        android:layout_height="66dp"
-        android:text="logout"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        app:backgroundTint="#EDAA46"
-        app:iconTint="#1C1212"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.998" />
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/pp"
         android:layout_width="141dp"
@@ -208,19 +193,33 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.473" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="388dp"
-        android:layout_height="64dp"
-        android:background="#905CEC"
-        android:backgroundTint="#9B6BEF"
-        android:foregroundTint="#9968EF"
-        android:text="My Rewards"
-        app:layout_constraintBottom_toTopOf="@+id/logout"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.985" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#905CEC"
+            android:backgroundTint="#9B6BEF"
+            android:foregroundTint="#9968EF"
+            android:text="My Rewards" />
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="logout"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            app:backgroundTint="#EDAA46"
+            app:iconTint="#1C1212" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
