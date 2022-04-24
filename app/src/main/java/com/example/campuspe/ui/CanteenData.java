@@ -27,6 +27,11 @@ public class CanteenData {
         this.upi = upi;
     }
 
+    public CanteenData(String name, ArrayList<FoodDetails> menu) {
+        this.name = name;
+        Menu = menu;
+    }
+
     public CanteenData(){
 
     }

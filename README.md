@@ -9,7 +9,7 @@
   An android application that enables students to pre-order their food which saves a lot of time and adding vouchers and coupons features in our app to boost the sales   of various canteens within our campus
   
 ## Demo Video Link:
-  <a href="https://youtu.be/dQw4w9WgXcQ">https://youtu.be/dQw4w9WgXcQ</a>
+  <a href="https://drive.google.com/file/d/1_cKKSgXLmYh5tQWcxi_WD84JgWQhobgf/view?usp=drivesdk">https://drive.google.com/file/d/1_cKKSgXLmYh5tQWcxi_WD84JgWQhobgf/view?usp=drivesdk</a>
   
 ## Presentation Link:
   <a href="https://docs.google.com/presentation/d/1IkCzVxZvJ8bN7518fjQPRA4I_l32KR_p/edit?usp=sharing&ouid=114053479317538985705&rtpof=true&sd=true"> PPT of Team Mattress_Lobers </a>

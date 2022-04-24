@@ -13,10 +13,13 @@ public class CouponDetails {
         this.off = off;
     }
 
-    public CouponDetails(String code, String desc, int disc) {
+    public CouponDetails() {
+    }
+
+    public CouponDetails(String code, String desc, int off) {
         this.code = code;
         this.desc = desc;
-        this.off = disc;
+        this.off = off;
     }
 
     public String getCode() {
