@@ -17,11 +17,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.campuspe.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -36,6 +39,7 @@ public class CanteenActivity extends AppCompatActivity {
     ArrayList<FoodDetails> foodList;
     Button payBtn, applyBtn;
     DatabaseReference databaseReference;
+    FirebaseDatabase database;
 
 
     @Override
@@ -53,6 +57,9 @@ public class CanteenActivity extends AppCompatActivity {
         actionName.setText(canteenName);
         payBtn = findViewById(R.id.payBtn);
         applyBtn = findViewById(R.id.applybtn);
+        database = FirebaseDatabase.getInstance();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseReference = database.getReference("CouponData");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,7 +162,44 @@ public class CanteenActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String verCode = codeVer.getText().toString();
                 String code = verCode;
+                Query mQueryRef = databaseReference;
 
+                mQueryRef.addValueEventListener(new ValueEventListener() {
+                    private static final String TAG = "";
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        Log.d(TAG, "onDataChange():" + dataSnapshot.toString());
+                        boolean f=false;
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            CouponDetails Data = snapshot.getValue(CouponDetails.class);
+                            if(Data.getCode().equals(verCode)){
+                                if(Integer.parseInt(fare.getText().toString().substring(3))-Data.getOff()<=0){
+                                    Toast.makeText(CanteenActivity.this, "Cannot Apply", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    fare.setText("Rs."+(Integer.parseInt(fare.getText().toString().substring(3))-Data.getOff()));
+                                    Toast.makeText(CanteenActivity.this, "Applied!!", Toast.LENGTH_SHORT).show();
+                                }
+                                f=true;
+                                dialog.hide();
+                                break;
+                            }
+                        }
+                        if(f==false){
+                            Toast.makeText(CanteenActivity.this, "Invalid Coupon Code", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.e(TAG, "Failed to read data", error.toException());
+
+                    }
+                });
 //                fare.setText("Rs."+(Integer.parseInt(fare.getText().toString().substring(3)-));
 
             }
