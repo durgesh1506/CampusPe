@@ -45,12 +45,8 @@ public class CanteenActivity extends AppCompatActivity {
     MenuAdapter menuAdapter;
     ArrayList<FoodDetails> foodList;
     Button payBtn, applyBtn;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference,databaseReference1;
     FirebaseDatabase database;
-
-
-    Button payBtn;
-    DatabaseReference databaseReference;
     ProgressBar progressBar;
 
     @Override
@@ -65,8 +61,9 @@ public class CanteenActivity extends AppCompatActivity {
         View view = getSupportActionBar().getCustomView();
         CircleImageView back = view.findViewById(R.id.actionBack);
         actionName = view.findViewById(R.id.actionName);
-        databaseReference = database.getReference("menu");
-progressBar=findViewById(R.id.progressBar4);
+        databaseReference1 = database.getReference("menu");
+
+        progressBar=findViewById(R.id.progressBar4);
         String canteenName = getIntent().getStringExtra("cName");
         actionName.setText(canteenName);
         payBtn = findViewById(R.id.payBtn);
@@ -87,7 +84,7 @@ progressBar=findViewById(R.id.progressBar4);
         fare = findViewById(R.id.fare);
 
 progressBar.setVisibility(View.VISIBLE);
-        Query mQueryRef = databaseReference;
+        Query mQueryRef = databaseReference1;
         final int[] a = {1};
         mQueryRef.addValueEventListener(new ValueEventListener() {
             private static final String TAG = "";
