@@ -9,6 +9,9 @@ public class FoodDetails {
         this.price = price;
     }
 
+    public FoodDetails() {
+    }
+
     public String getFoodName() {
         return foodName;
     }

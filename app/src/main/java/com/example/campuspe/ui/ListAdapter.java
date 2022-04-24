@@ -46,7 +46,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CanteenData data = canteenList.get(position);
 //        Log.d("chatTag", "onBindViewHolder: "+user.getName());
-        holder.canteen_name.setText(data.getName().toUpperCase());
+        holder.canteen_name.setText(data.getName());
 //        if(user.uri!=null){
 //            Picasso.get().load(user.getUri()).into(holder.card_pic);
 //        }

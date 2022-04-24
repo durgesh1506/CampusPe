@@ -12,12 +12,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.campuspe.R;
 import com.example.campuspe.UserProfile;
-import com.example.campuspe.ui.login.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,15 +29,13 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static java.security.AccessController.getContext;
-
 public class LoggedIn extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ListAdapter listAdapter;
     ArrayList< CanteenData > canteenList;
     DatabaseReference databaseReference;
-
+ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +50,12 @@ public class LoggedIn extends AppCompatActivity {
         //getSupportActionBar().setElevation(0);
         View view = getSupportActionBar().getCustomView();
         CircleImageView prof = view.findViewById(R.id.profile_image);
+        progressBar=findViewById(R.id.progressBar3);
         canteenList = new ArrayList<>();
+        progressBar.setVisibility(View.VISIBLE);
 
         Query mQueryRef = databaseReference;
-
+        final int[] a = {1};
         mQueryRef.addValueEventListener(new ValueEventListener() {
             private static final String TAG = "";
 
@@ -64,12 +63,14 @@ public class LoggedIn extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 Log.d(TAG, "onDataChange():" + dataSnapshot.toString());
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                   CanteenData canteenData = snapshot.getValue(CanteenData.class);
+                    CanteenData canteenData = snapshot.getValue(CanteenData.class);
                     canteenList.add(canteenData);
+
                 }
-               listAdapter = new ListAdapter(getApplicationContext(),canteenList);
+                progressBar.setVisibility(View.INVISIBLE);
+
+                listAdapter = new ListAdapter(getApplicationContext(),canteenList);
 
                 recyclerView.setAdapter(listAdapter);
 
@@ -77,7 +78,7 @@ public class LoggedIn extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
+                progressBar.setVisibility(View.INVISIBLE);
                 Log.e(TAG, "Failed to read data", error.toException());
 
             }
