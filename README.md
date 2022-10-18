@@ -19,7 +19,6 @@
   1) Java
   2) Android Studio
   3) Firebase
-  4) Razorpay Api
   
 
 ## Contributors:
