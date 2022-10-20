@@ -62,17 +62,17 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        otpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                phoneNo = tv.getText().toString();
+        //otpBtn.setOnClickListener(new View.OnClickListener() {
+         //   @Override
+         //   public void onClick(View v) {
+          //      phoneNo = tv.getText().toString();
 
-                registerUser(v);
-                sendVerificationCodeToUser(phoneNo);
-                showDialog();
-            }
+           //     registerUser(v);
+           //    sendVerificationCodeToUser(phoneNo);
+           //     showDialog();
+           // }
 
-        });
+       // });
     }
     @Override
     public void onStart() {
