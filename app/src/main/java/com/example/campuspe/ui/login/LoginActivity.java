@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onCodeSent(@NonNull String verificationId,
                                @NonNull PhoneAuthProvider.ForceResendingToken token) {
-            // The SMS verification code has been sent to the provided phone number, we
+            // The SMS verification code has been sent to the provided mobile number, we
             // now need to ask the user to enter the code and then construct a credential
             // by combining the code with a verification ID.
             Toast.makeText(getApplicationContext(),"Verification Code Sent Successfully",Toast.LENGTH_SHORT).show();
